@@ -113,6 +113,11 @@ class Tree extends Component {
         )
       }
     })
+
+    if (!keepTreeOnSearch) {
+      items.sort((a, b) => (a.label > b.label ? 1 : -1))
+    }
+
     return items
   }
 
