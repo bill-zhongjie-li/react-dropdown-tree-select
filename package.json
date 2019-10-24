@@ -1,5 +1,5 @@
 {
-  "name": "react-dropdown-tree-select",
+  "name": "react-tree-selector",
   "version": "0.0.1",
   "description": "Lightweight, customizable and fast Dropdown Tree Select component for React",
   "keywords": [
@@ -20,8 +20,8 @@
   ],
   "main": "dist/react-dropdown-tree-select.js",
   "types": "dist/react-dropdown-tree-select.d.ts",
-  "repository": "https://github.com/dowjones/react-dropdown-tree-select.git",
-  "author": "Hrusikesh Panda <hrusikesh.panda@dowjones.com>",
+  "repository": "https://github.com/bill-zhongjie-li/react-dropdown-tree-select.git",
+  "author": "Bill Li <bill.zhongjie.li@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "rimraf dist/**/* && cross-env NODE_ENV=production webpack --config webpack.config.js --bail --mode=production",
@@ -191,8 +191,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "pre-commit": "lint-staged"
     }
   }
 }
