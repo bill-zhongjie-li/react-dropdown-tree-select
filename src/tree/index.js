@@ -90,13 +90,19 @@ class Tree extends Component {
       activeDescendant,
       clientId,
     } = props
-    let filteredData = data.filter(node => shouldRenderNode(node, searchModeOn, data))
+    let filteredNodes = []
+
+    data.forEach(node => {
+      if (shouldRenderNode(node, searchModeOn, data)) {
+        filteredNodes.push(node)
+      }
+    })
 
     if (!keepTreeOnSearch && searchModeOn) {
-      filteredData = filteredData.sort(({ label: prevLabel }, { label: nextLabel }) => (prevLabel > nextLabel ? 1 : -1))
+      filteredNodes = filteredNodes.sort(({ label: a }, { label: b }) => (a > b ? 1 : -1))
     }
 
-    return filteredData.map(node => (
+    return filteredNodes.map(node => (
       <TreeNode
         keepTreeOnSearch={keepTreeOnSearch}
         keepChildrenOnSearch={keepChildrenOnSearch}
