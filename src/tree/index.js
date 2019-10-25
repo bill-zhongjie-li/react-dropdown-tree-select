@@ -90,35 +90,30 @@ class Tree extends Component {
       activeDescendant,
       clientId,
     } = props
-    const items = []
-    data.forEach(node => {
-      if (shouldRenderNode(node, searchModeOn, data)) {
-        items.push(
-          <TreeNode
-            keepTreeOnSearch={keepTreeOnSearch}
-            keepChildrenOnSearch={keepChildrenOnSearch}
-            key={node._id}
-            {...node}
-            searchModeOn={searchModeOn}
-            onChange={onChange}
-            onCheckboxChange={onCheckboxChange}
-            onNodeToggle={onNodeToggle}
-            onAction={onAction}
-            mode={mode}
-            showPartiallySelected={showPartiallySelected}
-            readOnly={readOnly}
-            clientId={clientId}
-            activeDescendant={activeDescendant}
-          />
-        )
-      }
-    })
+    let filteredData = data.filter(node => shouldRenderNode(node, searchModeOn, data))
 
-    if (!keepTreeOnSearch) {
-      items.sort((a, b) => (a.label > b.label ? 1 : -1))
+    if (!keepTreeOnSearch && searchModeOn) {
+      filteredData = filteredData.sort(({ label: prevLabel }, { label: nextLabel }) => (prevLabel > nextLabel ? 1 : -1))
     }
 
-    return items
+    return filteredData.map(node => (
+      <TreeNode
+        keepTreeOnSearch={keepTreeOnSearch}
+        keepChildrenOnSearch={keepChildrenOnSearch}
+        key={node._id}
+        {...node}
+        searchModeOn={searchModeOn}
+        onChange={onChange}
+        onCheckboxChange={onCheckboxChange}
+        onNodeToggle={onNodeToggle}
+        onAction={onAction}
+        mode={mode}
+        showPartiallySelected={showPartiallySelected}
+        readOnly={readOnly}
+        clientId={clientId}
+        activeDescendant={activeDescendant}
+      />
+    ))
   }
 
   hasMore = () => this.currentPage < this.totalPages
