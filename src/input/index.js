@@ -27,6 +27,7 @@ const getTags = (tags = [], onDelete, readOnly, disabled, labelRemove) =>
 
 class Input extends PureComponent {
   static propTypes = {
+    defalutValue: PropTypes.string,
     tags: PropTypes.array,
     texts: PropTypes.object,
     onInputChange: PropTypes.func,
@@ -53,6 +54,7 @@ class Input extends PureComponent {
   render() {
     const {
       tags,
+      defalutValue,
       onTagRemove,
       inputRef,
       texts = {},
@@ -70,6 +72,7 @@ class Input extends PureComponent {
         <li className={cx('tag-item')}>
           <input
             type="text"
+            defalutValue={defalutValue}
             disabled={disabled}
             ref={inputRef}
             className={cx('search')}
