@@ -253,7 +253,7 @@ class TreeManager {
   }
 
   getTreeAndTags() {
-    return { tree: this.tree, tags: this.tags }
+    return { tree: this.matchTree || this.tree, tags: this.tags }
   }
 
   handleNavigationKey(currentFocus, tree, key, readOnly, markSubTreeOnNonExpanded, onToggleChecked, onToggleExpanded) {
