@@ -309,6 +309,7 @@ class DropdownTreeSelect extends Component {
                 this.searchInput = el
               }}
               tags={tags}
+              defalutValue={this.searchTerm}
               onInputChange={this.onInputChange}
               onFocus={this.onInputFocus}
               onBlur={this.onInputBlur}
