@@ -72,7 +72,7 @@ class Input extends PureComponent {
         <li className={cx('tag-item')}>
           <input
             type="text"
-            defalutValue={defalutValue}
+            defalutvalue={defalutValue}
             disabled={disabled}
             ref={inputRef}
             className={cx('search')}
