@@ -61,6 +61,7 @@ class DropdownTreeSelect extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      searchTerm: '',
       searchModeOn: false,
       currentFocus: undefined,
     }
@@ -75,6 +76,9 @@ class DropdownTreeSelect extends Component {
       rootPrefixId: this.clientId,
       searchPredicate,
     })
+
+    this.treeManager.filterTree(this.state.searchTerm, this.props.keepTreeOnSearch, this.props.keepChildrenOnSearch)
+
     // Restore focus-state
     const currentFocusNode = this.state.currentFocus && this.treeManager.getNodeById(this.state.currentFocus)
     if (currentFocusNode) {
@@ -146,6 +150,7 @@ class DropdownTreeSelect extends Component {
     const searchModeOn = value.length > 0
 
     this.setState({
+      searchTerm: value,
       tree,
       searchModeOn,
       allNodesHidden,
