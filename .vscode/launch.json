@@ -25,8 +25,8 @@
       "autoAttachChildProcesses": true,
       //"args": ["${file}", "--serial"],
       // "args": ["${file}"],
-      "args": ["${workspaceFolder}\\src\\index.test.js", "--serial"],
-      "skipFiles": ["<node_internals>/**/*.js"]
+      "args": ["${workspaceFolder}/src/**/*.test.js", "--serial"]
+      // "skipFiles": ["<node_internals>/**/*.js"]
     }
   ]
 }
