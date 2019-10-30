@@ -77,7 +77,9 @@ class DropdownTreeSelect extends Component {
       searchPredicate,
     })
 
-    this.treeManager.filterTree(this.state.searchTerm, this.props.keepTreeOnSearch, this.props.keepChildrenOnSearch)
+    if (this.state.searchTerm.length > 0) {
+      this.treeManager.filterTree(this.state.searchTerm, this.props.keepTreeOnSearch, this.props.keepChildrenOnSearch)
+    }
 
     // Restore focus-state
     const currentFocusNode = this.state.currentFocus && this.treeManager.getNodeById(this.state.currentFocus)
