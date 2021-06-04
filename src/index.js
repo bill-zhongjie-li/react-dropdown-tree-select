@@ -61,7 +61,6 @@ class DropdownTreeSelect extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchTerm: '',
       searchModeOn: false,
       currentFocus: undefined,
     }
@@ -76,10 +75,6 @@ class DropdownTreeSelect extends Component {
       rootPrefixId: this.clientId,
       searchPredicate,
     })
-
-    if (this.state.searchTerm.length > 0) {
-      this.treeManager.filterTree(this.state.searchTerm, this.props.keepTreeOnSearch, this.props.keepChildrenOnSearch)
-    }
 
     // Restore focus-state
     const currentFocusNode = this.state.currentFocus && this.treeManager.getNodeById(this.state.currentFocus)
@@ -112,6 +107,10 @@ class DropdownTreeSelect extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.initNewProps(nextProps)
+
+    if (this.searchInput.value.length > 0) {
+      this.treeManager.filterTree(this.searchInput.value, this.props.keepTreeOnSearch, this.props.keepChildrenOnSearch)
+    }
   }
 
   handleClick = (e, callback) => {
@@ -152,7 +151,6 @@ class DropdownTreeSelect extends Component {
     const searchModeOn = value.length > 0
 
     this.setState({
-      searchTerm: value,
       tree,
       searchModeOn,
       allNodesHidden,
@@ -311,7 +309,6 @@ class DropdownTreeSelect extends Component {
                 this.searchInput = el
               }}
               tags={tags}
-              defalutValue={this.searchTerm}
               onInputChange={this.onInputChange}
               onFocus={this.onInputFocus}
               onBlur={this.onInputBlur}
