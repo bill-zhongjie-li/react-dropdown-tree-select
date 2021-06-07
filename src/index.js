@@ -61,7 +61,6 @@ class DropdownTreeSelect extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchTerm: '',
       searchModeOn: false,
       currentFocus: undefined,
     }
@@ -76,10 +75,6 @@ class DropdownTreeSelect extends Component {
       rootPrefixId: this.clientId,
       searchPredicate,
     })
-
-    if (this.state.searchTerm.length > 0) {
-      this.treeManager.filterTree(this.state.searchTerm, this.props.keepTreeOnSearch, this.props.keepChildrenOnSearch)
-    }
 
     // Restore focus-state
     const currentFocusNode = this.state.currentFocus && this.treeManager.getNodeById(this.state.currentFocus)
@@ -112,6 +107,10 @@ class DropdownTreeSelect extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.initNewProps(nextProps)
+
+    if (this.searchInput.value.length > 0) {
+      this.treeManager.filterTree(this.searchInput.value, this.props.keepTreeOnSearch, this.props.keepChildrenOnSearch)
+    }
   }
 
   handleClick = (e, callback) => {
@@ -152,7 +151,6 @@ class DropdownTreeSelect extends Component {
     const searchModeOn = value.length > 0
 
     this.setState({
-      searchTerm: value,
       tree,
       searchModeOn,
       allNodesHidden,
@@ -178,27 +176,31 @@ class DropdownTreeSelect extends Component {
   onCheckboxChange = (id, checked, callback) => {
     const { mode, keepOpenOnSelect } = this.props
     this.treeManager.setNodeCheckedState(id, checked)
+
     let tags = this.treeManager.tags
+    const tree = this.state.searchModeOn ? this.treeManager.matchTree : this.treeManager.tree
+
     const isSingleSelect = ['simpleSelect', 'radioSelect'].indexOf(mode) > -1
-    const showDropdown = isSingleSelect && !keepOpenOnSelect ? false : this.state.showDropdown
+    const hasOneMatch = tree.size === 1
+
+    const showDropdown = (isSingleSelect || hasOneMatch) && !keepOpenOnSelect ? false : this.state.showDropdown
 
     if (!tags.length) {
       this.treeManager.restoreDefaultValues()
       tags = this.treeManager.tags
     }
 
-    const tree = this.state.searchModeOn ? this.treeManager.matchTree : this.treeManager.tree
     const nextState = {
       tree,
       tags,
       showDropdown,
     }
 
-    if ((isSingleSelect && !showDropdown) || this.props.clearSearchOnChange) {
+    if (((isSingleSelect || hasOneMatch) && !showDropdown) || this.props.clearSearchOnChange) {
       Object.assign(nextState, this.resetSearchState())
     }
 
-    if (isSingleSelect && !showDropdown) {
+    if ((isSingleSelect || hasOneMatch) && !showDropdown) {
       document.removeEventListener('click', this.handleOutsideClick, false)
     }
 
@@ -311,7 +313,6 @@ class DropdownTreeSelect extends Component {
                 this.searchInput = el
               }}
               tags={tags}
-              defalutValue={this.searchTerm}
               onInputChange={this.onInputChange}
               onFocus={this.onInputFocus}
               onBlur={this.onInputBlur}
